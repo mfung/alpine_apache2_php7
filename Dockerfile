@@ -57,6 +57,3 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 RUN rc-update add apache2
 RUN httpd -k restart
-
-EXPOSE 80
-EXPOSE 443
