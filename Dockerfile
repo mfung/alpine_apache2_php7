@@ -4,10 +4,12 @@ LABEL maintainer="Meng Fung <meng.apps@gmail.com>"
 LABEL org.label-schema.name="Alpine Apache2 PHP7" \
       org.label-schema.description="Apache2 and PHP7 with most extensions" \
       org.label-schema.url="https://hub.docker.com/r/mengfung/alpine-apache2-php7/" \
-      org.label-schema.vcs-url="" \
+      org.label-schema.vcs-url="https://github.com/mfung/alpine_apache2_php7.git" \
       org.label-schema.vendor="Meng Fung" \
       org.label-schema.version="1.0" \
       org.label-schema.schema-version="1.0"
+
+RUN mkdir -p /run/apache2
 
 RUN apk add --update --no-cache \
     openrc \
@@ -40,7 +42,16 @@ RUN apk add --update --no-cache \
     apache2 \
     php7-apache2
 
+RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apache2/httpd.conf && \
+    sed -i "s/#LoadModule\ session_module/LoadModule\ session_module/" /etc/apache2/httpd.conf && \
+    sed -i "s/#LoadModule\ session_cookie_module/LoadModule\ session_cookie_module/" /etc/apache2/httpd.conf && \
+    sed -i "s/#LoadModule\ session_crypto_module/LoadModule\ session_crypto_module/" /etc/apache2/httpd.conf && \
+    sed -i "s/#LoadModule\ deflate_module/LoadModule\ deflate_module/" /etc/apache2/httpd.conf \
+    sed -i "s/\<IfModule\ mime_module\>/ a "
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 RUN rc-update add apache2
+
+EXPOSE 80
