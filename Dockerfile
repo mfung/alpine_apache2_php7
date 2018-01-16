@@ -56,4 +56,6 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
 RUN rc-update add apache2
-RUN httpd -k restart
+
+EXPOSE 80
+EXPOSE 443
