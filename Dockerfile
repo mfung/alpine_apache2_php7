@@ -9,7 +9,7 @@ LABEL org.label-schema.name="Alpine Apache2 PHP7" \
       org.label-schema.version="1.0" \
       org.label-schema.schema-version="1.0"
 
-RUN mkdir -p /run/apache2 && mkdir -p /etc/apache2/sites-enabled && mkdir -p /etc/apache2/sites-available
+RUN mkdir -p /run/apache2 && mkdir -p /etc/apache2/sites-enabled && mkdir -p /etc/apache2/sites-available && mkdir -p /www
 
 RUN apk add --update --no-cache \
     openrc \
