@@ -46,10 +46,10 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     sed -i "s/#LoadModule\ session_module/LoadModule\ session_module/" /etc/apache2/httpd.conf && \
     sed -i "s/#LoadModule\ session_cookie_module/LoadModule\ session_cookie_module/" /etc/apache2/httpd.conf && \
     sed -i "s/#LoadModule\ session_crypto_module/LoadModule\ session_crypto_module/" /etc/apache2/httpd.conf && \
-    sed -i "s/#ServerName\ www.example.com:80/ServerName\ www.example.com:80/" /etc/apache2/httpd.conf && \
+    sed -i "s/#ServerName\ www.example.com:80/ServerName\ www.example.com:8081/" /etc/apache2/httpd.conf && \
     sed -i "s/#LoadModule\ deflate_module/LoadModule\ deflate_module/" /etc/apache2/httpd.conf && \
     sed -i "/<IfModule\ mime_module>/a AddType\ application\/x-httpd-php\ .php\n\tAddType\ application\/x-httpd-phps\ .phps\n\tAddType\ application\/x-httpd-php3\ .php3\ .phtml\n\tAddType\ application\/x-httpd-php\ .html" /etc/apache2/httpd.conf && \
-    sed -i "/Listen\ 80/a Listen\ 443" /etc/apache2/httpd.conf && \
+    sed -i "s/Listen\ 80/Listen 8081/" /etc/apache2/httpd.conf && \
     sed -i "$ a IncludeOptional\ \/etc\/apache2\/sites-enabled\/*.conf" /etc/apache2/httpd.conf
 
 # Install composer
@@ -57,5 +57,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 RUN rc-update add apache2
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8081
