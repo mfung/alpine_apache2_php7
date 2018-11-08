@@ -11,7 +11,8 @@ LABEL org.label-schema.name="Alpine Apache2 PHP7" \
 
 RUN mkdir -p /run/apache2 && mkdir -p /etc/apache2/sites-enabled && mkdir -p /etc/apache2/sites-available && mkdir -p /www
 
-RUN apk add --update --no-cache \
+RUN apk update
+RUN apk --update --no-cache add \
     openrc \
     openssl \
     curl \
@@ -34,6 +35,7 @@ RUN apk add --update --no-cache \
     php7-curl \
     php7-pdo \
     php7-pdo_mysql \
+    php7-mysqli \
     php7-iconv \
     php7-mbstring \
     php7-zlib \
@@ -51,6 +53,8 @@ RUN sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apac
     sed -i "/<IfModule\ mime_module>/a AddType\ application\/x-httpd-php\ .php\n\tAddType\ application\/x-httpd-phps\ .phps\n\tAddType\ application\/x-httpd-php3\ .php3\ .phtml\n\tAddType\ application\/x-httpd-php\ .html" /etc/apache2/httpd.conf && \
     sed -i "/Listen\ 80/a Listen\ 443" /etc/apache2/httpd.conf && \
     sed -i "$ a IncludeOptional\ \/etc\/apache2\/sites-enabled\/*.conf" /etc/apache2/httpd.conf
+
+COPY interfaces /etc/network/interfaces
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
